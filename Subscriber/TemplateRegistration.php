@@ -4,7 +4,9 @@ namespace MagediaOrdertracker\Subscriber;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Enlight\Event\SubscriberInterface;
+use Enlight_Event_EventArgs;
 use Shopware\Components\Plugin\ConfigReader;
+use Shopware\Components\Theme\LessDefinition;
 
 class TemplateRegistration implements SubscriberInterface
 {
@@ -53,7 +55,8 @@ class TemplateRegistration implements SubscriberInterface
     {
         return [
             'Enlight_Controller_Action_PreDispatch' => 'onPreDispatch',
-            'Theme_Compiler_Collect_Plugin_Javascript' => 'addJsFiles'
+            'Theme_Compiler_Collect_Plugin_Javascript' => 'addJsFiles',
+            'Theme_Compiler_Collect_Plugin_Less' => 'onCollectLess',
         ];
     }
 
@@ -77,5 +80,21 @@ class TemplateRegistration implements SubscriberInterface
         ];
 
         return new ArrayCollection($jsFiles);
+    }
+
+    /**
+     * @param Enlight_Event_EventArgs $args
+     *
+     * @return LessDefinition
+     */
+    public function onCollectLess(Enlight_Event_EventArgs $args)
+    {
+        return new LessDefinition(
+            [],
+            [
+                dirname(__DIR__) . '/Resources/views/frontend/_public/src/less/style.less',
+            ],
+            dirname(__DIR__)
+        );
     }
 }
