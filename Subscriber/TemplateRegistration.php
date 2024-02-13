@@ -55,8 +55,7 @@ class TemplateRegistration implements SubscriberInterface
     {
         return [
             'Enlight_Controller_Action_PreDispatch' => 'onPreDispatch',
-            'Theme_Compiler_Collect_Plugin_Javascript' => 'addJsFiles',
-            'Theme_Compiler_Collect_Plugin_Less' => 'onCollectLess',
+            'Theme_Compiler_Collect_Plugin_Less' => 'onCollectLess'
         ];
     }
 
@@ -66,20 +65,6 @@ class TemplateRegistration implements SubscriberInterface
 
         $this->templateManager->assign('magediaOrdertrackerWidgetId', $config['magediaOrdertrackerWidgetId']);
         $this->templateManager->addTemplateDir($this->pluginDirectory . '/Resources/views');
-    }
-
-    /**
-     * Provide the file collection for js files
-     *
-     * @return ArrayCollection
-     */
-    public function addJsFiles(): ArrayCollection
-    {
-        $jsFiles = [
-            $this->pluginDirectory . '/Resources/views/frontend/_public/src/js/ordertracker.js',
-        ];
-
-        return new ArrayCollection($jsFiles);
     }
 
     /**

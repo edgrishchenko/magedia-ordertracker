@@ -18,6 +18,25 @@
             </div>
             <div id="ordertracker-widget" data-id="{$magediaOrdertrackerWidgetId}"></div>
             <script src="https://www.ordertracker.com/sdk.js"></script>
+            <script>
+                const orderTrackerWidget = document.querySelector('#ordertracker-widget');
+
+                if (orderTrackerWidget) {
+                    const params = new URLSearchParams(document.location.search);
+
+                    const trackNumber = params.get('tracking-number');
+
+                    if (trackNumber) {
+                        document.querySelector('#ordertracker-title .tracknumber').innerHTML = trackNumber;
+                        document.querySelector('#ordertracker-title').classList.remove('is--hidden');
+
+                        Ordertracker({
+                            "id": orderTrackerWidget.dataset.id,
+                            "trackingNumber": trackNumber
+                        }).render('#ordertracker-widget');
+                    }
+                }
+            </script>
         {/if}
     </div>
 {/block}
